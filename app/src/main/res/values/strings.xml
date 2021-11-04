@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Shortly</string>
+
+    <string name="empty_title">"Let’s get started!"</string>
+    <string name="empty_desc">Paste your first link into\nthe field to shorten it</string>
+
+    <string name="add_plate_hint">Shorten a link here …</string>
+    <string name="add_plate_error">Please add a link here</string>
+    <string name="add_plate_btn">shorten it!</string>
+
+    <string name="history_title">Your Link History</string>
+    <string name="item_history_btn_copy">Copy</string>
+    <string name="item_history_btn_copied">Copied!</string>
+
+</resources>
