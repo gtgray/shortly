@@ -10,6 +10,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import tk.atna.shortlyapp.data.datasource.api.ServerApi
 import tk.atna.shortlyapp.data.datasource.db.AppDatabase
+import tk.atna.shortlyapp.data.repository.UrlsRepositoryImpl
+import tk.atna.shortlyapp.domain.interactor.UrlsInteractor
+import tk.atna.shortlyapp.domain.repository.UrlsRepository
 
 const val BASE_URL = "https://api.shrtco.de/v2"
 
@@ -41,5 +44,8 @@ val appModule = module {
     }
     single<ServerApi> { get<Retrofit>().create(ServerApi::class.java) }
 
-    // todo: add other stuff
+    // other stuff
+    single<UrlsRepository> { UrlsRepositoryImpl(get(), get()) }
+
+    factory { UrlsInteractor(get()) }
 }

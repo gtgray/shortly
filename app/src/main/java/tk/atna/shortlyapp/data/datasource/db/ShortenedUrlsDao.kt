@@ -10,6 +10,9 @@ abstract class ShortenedUrlsDao {
     @Query("SELECT * FROM shortened_urls ORDER BY timestamp DESC")
     abstract fun getShortenedUrls(): Flow<List<ShortenedUrlEntity>>
 
+    @Query("DELETE FROM shortened_urls WHERE code == :code")
+    abstract suspend fun delete(code: String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(entity: ShortenedUrlEntity): Long
 }
