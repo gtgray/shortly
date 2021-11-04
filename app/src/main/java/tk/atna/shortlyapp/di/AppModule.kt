@@ -1,0 +1,45 @@
+package tk.atna.shortlyapp.di
+
+import androidx.room.Room
+import com.google.gson.Gson
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.module
+import retrofit2.Converter
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import tk.atna.shortlyapp.data.datasource.api.ServerApi
+import tk.atna.shortlyapp.data.datasource.db.AppDatabase
+
+const val BASE_URL = "https://api.shrtco.de/v2"
+
+val appModule = module {
+
+    // data base init
+    single {
+        Room.databaseBuilder(get(), AppDatabase::class.java, "shortly_db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+    single { get<AppDatabase>().shortenedUrlsDao() }
+
+    // network init
+    single { Gson() }
+    single<Converter.Factory> { GsonConverterFactory.create(get()) }
+    single { HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY } }
+    single {
+        OkHttpClient.Builder()
+            .addInterceptor(get<HttpLoggingInterceptor>())
+            .build()
+    }
+    single<Retrofit> {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(get())
+            .addConverterFactory(get())
+            .build()
+    }
+    single<ServerApi> { get<Retrofit>().create(ServerApi::class.java) }
+
+    // todo: add other stuff
+}
