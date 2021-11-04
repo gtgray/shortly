@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="cyan">#ff2acfcf</color>
+    <color name="dark_violet">#ff3b3054</color>
+
+    <color name="red">#fff46262</color>
+
+    <color name="light_gray">#ffbfbfbf</color>
+    <color name="gray">#ff9e9aa7</color>
+    <color name="grayish_violet">#ff35323e</color>
+    <color name="very_dark_violet">#ff232127</color>
+
+    <color name="white">#ffffffff</color>
+    <color name="off_white">#fff0f1f6</color>
+
+</resources>
