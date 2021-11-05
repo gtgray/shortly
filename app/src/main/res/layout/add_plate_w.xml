@@ -5,7 +5,7 @@
     android:id="@+id/vg_add_plate"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dark_violet">
+    android:background="?colorPrimary">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
@@ -23,7 +23,9 @@
         android:background="@drawable/edittext_bg"
         android:gravity="center"
         android:hint="@string/add_plate_hint"
-        android:textColorHint="@color/light_gray"
+        android:inputType="textUri"
+        android:maxLines="1"
+        android:textColorHint="@color/edittext_hint_slc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

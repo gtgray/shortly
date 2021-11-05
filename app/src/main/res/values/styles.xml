@@ -1,19 +1,25 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorPrimary">@color/dark_violet</item>
         <item name="colorPrimaryDark">@color/dark_violet</item>
-        <item name="colorAccent">@color/red</item>
+        <item name="colorAccent">@color/cyan</item>
+        <item name="android:textColorPrimary">@color/grayish_violet</item>
+        <item name="android:statusBarColor">@color/off_white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
-    <style name="App.Button" parent="Widget.AppCompat.Button">
+    <style name="App.Button" parent="Widget.AppCompat.TextView">
+        <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_20</item>
         <item name="android:fontFamily">@font/poppins_bold_700</item>
         <item name="android:background">@drawable/button_bg</item>
         <item name="android:gravity">center</item>
+        <item name="android:paddingTop">6dp</item>
     </style>
 
 </resources>

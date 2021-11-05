@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/off_white">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/vg_history"
@@ -27,7 +28,7 @@
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/poppins_medium_500"
                 android:text="@string/history_title"
-                android:textColor="@color/grayish_violet"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/text_17" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -52,8 +53,21 @@
     <include
         android:id="@+id/vg_add_plate"
         layout="@layout/add_plate_w"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/vFocusDummy"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

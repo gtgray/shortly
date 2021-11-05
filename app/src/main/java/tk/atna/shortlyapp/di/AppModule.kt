@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -13,8 +14,9 @@ import tk.atna.shortlyapp.data.datasource.db.AppDatabase
 import tk.atna.shortlyapp.data.repository.UrlsRepositoryImpl
 import tk.atna.shortlyapp.domain.interactor.UrlsInteractor
 import tk.atna.shortlyapp.domain.repository.UrlsRepository
+import tk.atna.shortlyapp.presentation.main.MainViewModel
 
-const val BASE_URL = "https://api.shrtco.de/v2"
+const val BASE_URL = "https://api.shrtco.de/v2/"
 
 val appModule = module {
 
@@ -48,4 +50,6 @@ val appModule = module {
     single<UrlsRepository> { UrlsRepositoryImpl(get(), get()) }
 
     factory { UrlsInteractor(get()) }
+
+    viewModel { MainViewModel(get()) }
 }
