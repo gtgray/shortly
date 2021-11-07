@@ -25,6 +25,7 @@
         android:hint="@string/add_plate_hint"
         android:inputType="textUri"
         android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
         android:textColorHint="@color/edittext_hint_slc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,5 +44,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_url" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/v_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateOnly="true"
+        app:indicatorColor="@color/white"
+        app:indicatorSize="32dp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_shorten"
+        app:layout_constraintEnd_toEndOf="@id/btn_shorten"
+        app:layout_constraintStart_toStartOf="@id/btn_shorten"
+        app:layout_constraintTop_toTopOf="@id/btn_shorten" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
