@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Shortly</string>
 
+    <string name="error_unknown">Something went wrong</string>
+
     <string name="empty_title">"Let’s get started!"</string>
     <string name="empty_desc">Paste your first link into\nthe field to shorten it</string>
 

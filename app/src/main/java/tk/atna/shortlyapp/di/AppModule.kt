@@ -6,9 +6,11 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import tk.atna.shortlyapp.data.datasource.api.ApiExceptionCallAdapterFactory
 import tk.atna.shortlyapp.data.datasource.api.ServerApi
 import tk.atna.shortlyapp.data.datasource.db.AppDatabase
 import tk.atna.shortlyapp.data.repository.UrlsRepositoryImpl
@@ -31,6 +33,7 @@ val appModule = module {
     // network init
     single { Gson() }
     single<Converter.Factory> { GsonConverterFactory.create(get()) }
+    single<CallAdapter.Factory> { ApiExceptionCallAdapterFactory(get()) }
     single { HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY } }
     single {
         OkHttpClient.Builder()
@@ -42,6 +45,7 @@ val appModule = module {
             .baseUrl(BASE_URL)
             .client(get())
             .addConverterFactory(get())
+            .addCallAdapterFactory(get())
             .build()
     }
     single<ServerApi> { get<Retrofit>().create(ServerApi::class.java) }
