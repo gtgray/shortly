@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tk.atna.shortlyapp.R
 import tk.atna.shortlyapp.databinding.MainFrBinding
+import tk.atna.shortlyapp.domain.model.ShortenedUrl
 import tk.atna.shortlyapp.extension.collect
+import tk.atna.shortlyapp.extension.copyToClipboard
 import tk.atna.shortlyapp.extension.isHitByMotionEvent
 import tk.atna.shortlyapp.presentation.base.BaseFragment
 import tk.atna.shortlyapp.presentation.base.ErrorHandler
@@ -25,7 +28,7 @@ class MainFragment : BaseFragment() {
     override val viewModel: MainViewModel by viewModel()
 
     private val adapter by lazy {
-        HistoryAdapter(requireContext(), viewModel::copyUrl, viewModel::deleteUrl)
+        HistoryAdapter(requireContext(), ::copyUrl, viewModel::deleteUrl)
     }
 
     private val adapterDataObserver by lazy {
@@ -50,6 +53,7 @@ class MainFragment : BaseFragment() {
 
         with(binding) {
             rvHistory.adapter = adapter
+            (rvHistory.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
             adapter.registerAdapterDataObserver(adapterDataObserver)
 
             vFocusDummy.setOnTouchListener { v, event ->
@@ -87,6 +91,11 @@ class MainFragment : BaseFragment() {
     override fun createErrorHandler() = InputErrorHandler(requireContext(), createErrorView())
 
     override fun createErrorView() = InputErrorView(requireContext())
+
+    private fun copyUrl(shortenedUrl: ShortenedUrl) {
+        requireContext().copyToClipboard(shortenedUrl.shortLink)
+        viewModel.copyUrl(shortenedUrl)
+    }
 
     private fun showEmpty(show: Boolean) {
         with(binding) {

@@ -1,23 +1,39 @@
 package tk.atna.shortlyapp.presentation.main
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import tk.atna.shortlyapp.R
 import tk.atna.shortlyapp.domain.interactor.UrlsInteractor
 import tk.atna.shortlyapp.domain.model.ShortenedUrl
 import tk.atna.shortlyapp.extension.asStateFlow
 import tk.atna.shortlyapp.presentation.base.BaseViewModel
 import tk.atna.shortlyapp.presentation.model.InputException
+import tk.atna.shortlyapp.presentation.model.ShortenedUrlItem
 import tk.atna.shortlyapp.stuff.SingleEventFlow
 
 class MainViewModel(
     private val urlsInteractor: UrlsInteractor
 ) : BaseViewModel() {
 
-    val history = urlsInteractor.getShortenedUrls().asStateFlow(viewModelScope, listOf())
+    private var copiedLink = MutableStateFlow<String?>(null)
+    private var copyTimeout: Job? = null
+    val history = copiedLink.combine(urlsInteractor.getShortenedUrls()) { copied, urls ->
+        urls.map { ShortenedUrlItem(it, copied) }
+    }.asStateFlow(viewModelScope, listOf())
+
     val submitSuccess = SingleEventFlow<Unit>()
 
     fun copyUrl(shortenedUrl: ShortenedUrl) {
-        // todo: cache
+        copiedLink.value = shortenedUrl.shortLink
+
+        copyTimeout?.cancel()
+        copyTimeout = launchJob(loading = null) {
+            delay(DEFAULT_COPY_TIMEOUT)
+            copiedLink.value = null
+        }
     }
 
     fun deleteUrl(shortenedUrl: ShortenedUrl) {
@@ -35,5 +51,9 @@ class MainViewModel(
                 submitSuccess.setValue(Unit)
             }
         }
+    }
+
+    companion object {
+        const val DEFAULT_COPY_TIMEOUT = 5000L
     }
 }

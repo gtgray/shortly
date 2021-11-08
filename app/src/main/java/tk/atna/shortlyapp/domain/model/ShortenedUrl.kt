@@ -5,4 +5,3 @@ data class ShortenedUrl(
     val originalLink: String,
     val shortLink: String
 )
-
