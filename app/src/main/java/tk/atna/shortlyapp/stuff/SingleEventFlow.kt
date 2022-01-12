@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class SingleEventFlow<T>() {
+class SingleEventFlow<T> {
 
     private val _event = Channel<T>(Channel.CONFLATED)
     private val event = _event.receiveAsFlow()

@@ -1,4 +1,4 @@
-package tk.atna.shortlyapp.presentation.main;
+package tk.atna.shortlyapp.presentation.main
 
 import android.content.Context
 import android.content.res.ColorStateList
