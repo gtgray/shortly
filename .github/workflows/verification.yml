@@ -6,21 +6,44 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
+  verification:
     runs-on: ubuntu-latest
 
     steps:
     - name: checkout repository
       uses: actions/checkout@v2
 
-    - name: set up JDK
+    - name: set up jdk
       uses: actions/setup-java@v2
       with:
         java-version: '11'
         distribution: 'temurin'
+        cache: gradle
 
-    - name: Gradle Build Action
-      uses: gradle/gradle-build-action@v2.1.0
+    - name: grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: make clean
+      run: ./gradlew clean --stacktrace
+
+    - name: run ktlint
+      run: ./gradlew ktlint --stacktrace
+
+    - name: run detekt
+#      continue-on-error: true
+      run: ./gradlew detekt --stacktrace
+
+    - name: upload sarif detekt report to github
+      uses: github/codeql-action/upload-sarif@v1
+      if: success() || failure()
       with:
-        gradle-version: wrapper
-        arguments: clean ktlint detekt checkstyle lintDebug testDebugUnitTestCoverage --stacktrace
+        sarif_file: ${{ github.workspace }}/app/build/reports
+
+    - name: run checkstyle
+      run: ./gradlew checkstyle --stacktrace
+
+    - name: run lintDebug
+      run: ./gradlew lintDebug --stacktrace
+
+    - name: check unit test coverage
+      run: ./gradlew testDebugUnitTestCoverage --stacktrace
