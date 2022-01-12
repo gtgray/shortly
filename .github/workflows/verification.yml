@@ -1,0 +1,26 @@
+
+name: Verification on pull request
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v2
+
+    - name: set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - name: Gradle Build Action
+      uses: gradle/gradle-build-action@v2.1.0
+      with:
+        gradle-version: wrapper
+        arguments: clean ktlint detekt checkstyle lintDebug testDebugUnitTestCoverage --stacktrace
