@@ -33,7 +33,7 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
-          name: 1\ ktlint report
+          name: 1. ktlint report
           path: app/build/reports/ktlint/ktlint.xml
 
       - name: run detekt
@@ -44,7 +44,7 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
-          name: 2\ detekt report
+          name: 2. detekt report
           path: app/build/reports/detekt/detekt-report.html
 
       - name: run checkstyle
@@ -55,7 +55,7 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
-          name: 3\ checkstyle report
+          name: 3. checkstyle report
           path: app/build/reports/checkstyle/checkstyle.html
 
       - name: run lintDebug
@@ -66,7 +66,7 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
-          name: 4\ lint debug resuts
+          name: 4. lint debug resuts
           path: app/build/reports/lint-results-debug.html
 
       - name: check unit test coverage
@@ -77,12 +77,12 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
-          name: 5\ test report
+          name: 5. test report
           path: app/build/test-results/testDebugUnitTest/*.xml
 
       - name: upload jacoco report
         if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
-          name: 6\ jacoco report
+          name: 6. jacoco report
           path: app/build/reports/jacoco/testDebugUnitTestCoverage/html
