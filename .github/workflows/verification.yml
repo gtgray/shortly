@@ -1,4 +1,4 @@
-name: Verification on pull request
+name: verification_on_pull_request
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   verification:
+    name: verification
     runs-on: ubuntu-latest
 
     steps:
@@ -28,18 +29,60 @@ jobs:
       - name: run ktlint
         run: ./gradlew ktlint --stacktrace
 
+      - name: upload ktlint report
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: 1\ ktlint report
+          path: app/build/reports/ktlint/ktlint.xml
+
       - name: run detekt
         if: success() || failure()
         run: ./gradlew detekt --stacktrace
+
+      - name: upload detekt report
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: 2\ detekt report
+          path: app/build/reports/detekt/detekt-report.html
 
       - name: run checkstyle
         if: success() || failure()
         run: ./gradlew checkstyle --stacktrace
 
+      - name: upload checkstyle report
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: 3\ checkstyle report
+          path: app/build/reports/checkstyle/checkstyle.html
+
       - name: run lintDebug
         if: success() || failure()
         run: ./gradlew lintDebug --stacktrace
 
+      - name: upload lint debug report
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: 4\ lint debug resuts
+          path: app/build/reports/lint-results-debug.html
+
       - name: check unit test coverage
         if: success() || failure()
         run: ./gradlew testDebugUnitTestCoverage --stacktrace
+
+      - name: upload test report
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: 5\ test report
+          path: app/build/test-results/testDebugUnitTest/*.xml
+
+      - name: upload jacoco report
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: 6\ jacoco report
+          path: app/build/reports/jacoco/testDebugUnitTestCoverage/html
