@@ -1,7 +1,7 @@
 # default excludes for rules:
 # excludes: ".*test.*,.*build.*,.*/resources/.*,.*/tmp/.*,**/build/**,**/test/**,.*Test.kt,.*Spec.kt"
 build:
-  maxIssues: 1
+  maxIssues: 0
   excludeCorrectable: false
   weights:
   # complexity: 2
@@ -11,7 +11,6 @@ build:
 
 config:
   validation: true
-  warningsAsErrors: true
   # when writing own rules with new properties, exclude the property path e.g.: "my_rule_set,.*>.*>[my_property]"
   excludes: ""
 
