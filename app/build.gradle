@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.gitlab.arturbosch.detekt'
+apply plugin: 'com.google.firebase.appdistribution'
 
 apply from: '../config/quality/ktlint.gradle'
 apply from: '../config/quality/checkstyle.gradle'
@@ -20,8 +21,17 @@ android {
     }
 
     buildTypes {
+        releaseQa {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            firebaseAppDistribution {
+                appId = "1:892836311496:android:f70c638897a57b436650fd_"
+                serviceCredentialsFile = file('ed569fd83edd.json')
+            }
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
