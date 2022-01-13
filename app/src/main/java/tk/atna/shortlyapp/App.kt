@@ -1,9 +1,9 @@
 package tk.atna.shortlyapp
 
 import android.app.Application
-import tk.atna.shortlyapp.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import tk.atna.shortlyapp.di.appModule
 
 class App : Application() {
 

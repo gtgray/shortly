@@ -1,0 +1,38 @@
+/**
+ * Set up Checkstyle, Findbugs and PMD to perform extensive code analysis.
+ *
+ * Gradle tasks added:
+ * - checkstyle
+ * - findbugs
+ * - pmd
+ *
+ * The three tasks above are added as dependencies of the check task so running check will
+ * run all of them.
+ */
+apply plugin: "checkstyle"
+
+dependencies {
+    checkstyle 'com.puppycrawl.tools:checkstyle:8.41'
+}
+
+def qualityConfigDir = "$project.rootDir/config/quality"
+def reportsDir = "$project.buildDir/reports"
+
+task checkstyle(type: Checkstyle, group: 'Verification', description: 'Runs code style checks') {
+    configFile file("$qualityConfigDir/checkstyle/checkstyle-config.xml")
+    source 'src'
+    include '**/*.xml'
+    include '**/*.kt'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+
+    reports {
+        xml.enabled = true
+        xml {
+            destination file("$reportsDir/checkstyle/checkstyle.xml")
+        }
+    }
+
+    classpath = files()
+}
