@@ -1,0 +1,26 @@
+name: prepare_for_further_actions
+
+on:
+  workflow_call:
+
+jobs:
+  preparation:
+    name: preparation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: set up jdk
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: set up gradlew permissions
+        run: chmod +x gradlew
+
+      - name: make clean
+        run: ./gradlew clean --stacktrace
