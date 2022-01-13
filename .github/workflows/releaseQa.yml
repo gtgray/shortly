@@ -1,11 +1,13 @@
-name: prepare_for_further_actions
+name: release_for_qa
 
 on:
-  workflow_call:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+t'
 
 jobs:
-  preparation:
-    name: preparation
+  release_qa:
+    name: release_qa
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +26,12 @@ jobs:
 
       - name: make clean
         run: ./gradlew clean --stacktrace
+
+      - name: run lint
+        run: ./gradlew lintReleaseQa --stacktrace
+
+      - name: run assemble
+        run: ./gradlew assembleReleaseQa --stacktrace
+
+      - name: distribute
+        run: ./gradlew appDistributionUploadReleaseQa --stacktrace
