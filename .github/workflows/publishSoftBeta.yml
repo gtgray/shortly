@@ -1,0 +1,49 @@
+name: publish_soft_beta_draft
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+sb'
+
+jobs:
+  publish_soft_beta_draft:
+    name: release_qa
+    runs-on: ubuntu-latest
+    environment: release
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: set up jdk
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: set up gradlew permissions
+        run: chmod +x gradlew
+
+      - name: make clean
+        run: ./gradlew clean --stacktrace
+
+      - name: run lint
+        run: ./gradlew lintRelease --stacktrace
+
+      - name: create bundle
+        run: ./gradlew bundleRelease --stacktrace
+        env:
+          SIGN_STORE_FILE: 'app/shortly_release.jks'
+          SIGN_STORE_PASSWORD: ${{ secrets.RELEASE_PASS}}
+          SIGN_KEY_ALIAS: 'shortly_release'
+          SIGN_KEY_PASSWORD: 'shortly_release'
+
+      - name: upload bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: release bundle
+          path: app/build/outputs/bundle/release/*.aab
+
+      - name: publish soft beta draft
+        run: ./gradlew publishSoftBetaDraft --stacktrace
