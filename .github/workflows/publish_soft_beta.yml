@@ -12,8 +12,41 @@ jobs:
     environment: release
 
     steps:
-      - name: create release bundle
-        uses: ./.github/actions/release_bundle@main
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: set up jdk
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: set up gradlew permissions
+        run: chmod +x gradlew
+
+      - name: make clean
+        run: ./gradlew clean --stacktrace
+
+      - name: run lint
+        run: ./gradlew lintRelease --stacktrace
+
+      - name: pull release keystore
+        run: echo "${{ secrets.STORE_FILE }}" | base64 --decode > app/shortly_release.jks
+
+      - name: create bundle
+        run: ./gradlew bundleRelease --stacktrace
+        env:
+          SIGN_STORE_FILE: './shortly_release.jks'
+          SIGN_STORE_PASSWORD: ${{ secrets.STORE_PASSWORD}}
+          SIGN_KEY_ALIAS: ${{ secrets.KEY_ALIAS}}
+          SIGN_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD}}
+
+      - name: upload bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: release bundle
+          path: app/build/outputs/bundle/release/*.aab
 
       - name: publish soft beta draft
         run: ./gradlew publishSoftBetaDraft --stacktrace
