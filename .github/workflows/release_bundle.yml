@@ -1,13 +1,11 @@
-name: publish_soft_beta_draft
+name: release_bundle_for_publish
 
 on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+sb'
+  workflow_call:
 
 jobs:
-  publish_soft_beta_draft:
-    name: release_qa
+  release_bundle:
+    name: release_bundle
     runs-on: ubuntu-latest
     environment: release
 
@@ -47,6 +45,3 @@ jobs:
         with:
           name: release bundle
           path: app/build/outputs/bundle/release/*.aab
-
-      - name: publish soft beta draft
-        run: ./gradlew publishSoftBetaDraft --stacktrace
