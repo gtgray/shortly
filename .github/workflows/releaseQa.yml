@@ -3,7 +3,7 @@ name: release_for_qa
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+t'
+      - 'v[0-9]+.[0-9]+.[0-9]+qa'
 
 jobs:
   release_qa:
