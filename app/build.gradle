@@ -1,4 +1,3 @@
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -20,19 +19,30 @@ android {
         versionName "1.0"
     }
 
+    signingConfigs {
+        config {
+            storeFile file(System.getenv('SIGN_STORE_FILE') ?: './shortly.jks')
+            storePassword System.getenv('SIGN_STORE_PASSWORD') ?: 'shortly'
+            keyAlias System.getenv('SIGN_KEY_ALIAS') ?: 'shortly'
+            keyPassword System.getenv('SIGN_KEY_PASSWORD') ?: 'shortly'
+        }
+    }
+
     buildTypes {
         releaseQa {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
             firebaseAppDistribution {
-                appId = "1:892836311496:android:f70c638897a57b436650fd_"
-                serviceCredentialsFile = file('ed569fd83edd.json')
+                appId = "application_id_in_firebase_project"
+                serviceCredentialsFile = file('service_account.json')
             }
         }
 
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 
