@@ -24,6 +24,16 @@ jobs:
       - name: set up gradlew permissions
         run: chmod +x gradlew
 
+      - name: generate release notes
+        shell: bash
+        run: |
+          lastTag=$(git tag --sort=-committerdate | head -1)
+          previousTag=$(git tag --sort=-committerdate | head -2)
+          echo "$lastTag, $previousTag"
+          notes=$(git log --no-merges --pretty=%s $lastTag...$previousTag | cut -d " " -f 2-)
+          echo $notes > app/build/release_notes.txt
+          cat app/build/release_notes.txt
+
       - name: make clean
         run: ./gradlew clean --stacktrace
 
