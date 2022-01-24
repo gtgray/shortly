@@ -33,9 +33,11 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            generateReleaseNotes()
             firebaseAppDistribution {
                 appId = "application_id_in_firebase_project"
                 serviceCredentialsFile = file('service_account.json')
+                releaseNotesFile = file('release_notes.txt')
             }
         }
 
