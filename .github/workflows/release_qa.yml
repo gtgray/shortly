@@ -8,7 +8,7 @@ on:
 jobs:
   release_qa:
     name: release_qa
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: checkout repository
