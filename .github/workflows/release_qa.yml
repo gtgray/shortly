@@ -27,11 +27,11 @@ jobs:
       - name: generate release notes
         shell: bash
         run: |
-          lastTag=$(git tag --list --sort=-committerdate | head -1)
+          export lastTag=$(git tag --list --sort=-committerdate | head -1)
           echo $lastTag
-          previousTag=$(git tag --list --sort=-committerdate | head -2 | awk '{split($0, tags, "\n")} END {print tags[1]}')
+          export previousTag=$(git tag --list --sort=-committerdate | head -2 | awk '{split($0, tags, "\n")} END {print tags[1]}')
           echo $previousTag
-          notes=$(git log --no-merges --pretty=%s $lastTag...$previousTag | cut -d " " -f 2-)
+          export notes=$(git log --no-merges --pretty=%s $lastTag...$previousTag | cut -d " " -f 2-)
           echo $notes > app/build/release_notes.txt
           cat app/build/release_notes.txt
 
