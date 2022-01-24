@@ -29,3 +29,34 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+static File generateReleaseNotes(String dir) {
+    // discover all tags by date
+    def tags = "git tag --list --sort=-committerdate".execute().text.trim().tokenize('\n')
+    System.out.println("TAGS " + tags)
+    // collect commit messages between last two tags
+    def messages = ""
+    if (tags.size() > 1) {
+        messages = ("git log --no-merges --pretty=%s " + tags.get(0) + "..." + tags.get(1))
+                .execute().text.trim().tokenize('\n')
+    }
+    // format release notes and write to file
+    def releaseNotesDir = new File(dir)
+    releaseNotesDir.mkdirs()
+    def releaseNotesFile = new File('release_notes.txt', releaseNotesDir)
+    releaseNotesFile.newWriter().withWriter { writer ->
+        int i = 0;
+        messages.collect {
+            if(it != null) {
+                def line = ++i + "\\ " + it + "\n"
+                writer << line
+            }
+        }
+    }
+    // print release notes file content
+    new Scanner(releaseNotesFile).with {
+        while (hasNextLine()) {
+            println(nextLine())
+        }
+    }
+}
