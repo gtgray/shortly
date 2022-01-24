@@ -27,13 +27,14 @@ jobs:
       - name: generate release notes
         shell: bash
         run: |
-          export lastTag=$(git tag --list --sort=-committerdate | head -1)
-          echo $lastTag
-          export previousTag=$(git tag --list --sort=-committerdate | head -2 | awk '{split($0, tags, "\n")} END {print tags[1]}')
-          echo $previousTag
-          export notes=$(git log --no-merges --pretty=%s $lastTag...$previousTag | cut -d " " -f 2-)
-          echo $notes > app/build/release_notes.txt
-          cat app/build/release_notes.txt
+          export notes=$(git log --no-merges --pretty=%s \
+          `git tag --list --sort=-committerdate | head -1`\
+          ...\
+          `git tag --list --sort=-committerdate | head -2 | awk '{split($0, tags, "\n")} END {print tags[1]}'` \
+          | cut -d " " -f 2-)
+          echo "$notes"
+          echo $notes > ./release_notes.txt
+          cat ./release_notes.txt
 
       - name: make clean
         run: ./gradlew clean --stacktrace
