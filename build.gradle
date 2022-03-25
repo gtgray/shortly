@@ -1,20 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.5.31'
+    ext.kotlin_version = '1.6.10'
     repositories {
         google()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:7.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0"
-        classpath "com.google.firebase:firebase-appdistribution-gradle:2.2.0"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "com.google.firebase:firebase-appdistribution-gradle:3.0.1"
     }
 }
 
@@ -42,7 +39,7 @@ static void generateReleaseNotes(String dir) {
     // format release notes and write to file
     def releaseNotesDir = new File(dir)
     releaseNotesDir.mkdirs()
-    def releaseNotesFile = new File('release_notes.txt', releaseNotesDir)
+    def releaseNotesFile = new File(releaseNotesDir, 'release_notes.txt')
     releaseNotesFile.newWriter().withWriter { writer ->
         int i = 0;
         messages.collect {
