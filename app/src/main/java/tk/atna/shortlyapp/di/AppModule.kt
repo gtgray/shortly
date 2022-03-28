@@ -19,12 +19,13 @@ import tk.atna.shortlyapp.domain.repository.UrlsRepository
 import tk.atna.shortlyapp.presentation.main.MainViewModel
 
 const val BASE_URL = "https://api.shrtco.de/v2/"
+const val DATABASE_NAME = "shortly_db"
 
 val appModule = module {
 
     // data base init
     single {
-        Room.databaseBuilder(get(), AppDatabase::class.java, "shortly_db")
+        Room.databaseBuilder(get(), AppDatabase::class.java, DATABASE_NAME)
             .fallbackToDestructiveMigration()
             .build()
     }

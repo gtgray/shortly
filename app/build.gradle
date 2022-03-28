@@ -17,6 +17,9 @@ android {
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
+
+        testApplicationId "tk.atna.shortlyapp.test"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -55,6 +58,16 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+            all { jvmArgs '-noverify' }
+        }
+        animationsDisabled = true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
 
