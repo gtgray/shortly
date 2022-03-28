@@ -2,6 +2,7 @@ package tk.atna.shortlyapp.scenario
 
 import com.kaspersky.kaspresso.testcases.api.scenario.Scenario
 import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
+import tk.atna.shortlyapp.common.singleTap
 import tk.atna.shortlyapp.screen.MainScreen
 import tk.atna.shortlyapp.screen.checkAddPlateDisplayed
 import tk.atna.shortlyapp.screen.checkEmptyDisplayed
@@ -19,14 +20,14 @@ class ShortenAnUrlScenario : Scenario() {
                 checkEmptyDisplayed()
                 checkAddPlateDisplayed()
                 enterUrl()
-                shortenBtn { click() }
+                shortenBtn { singleTap() }
             }
         }
         step("Check shortened url in the list") {
             MainScreen {
-                checkAddPlateDisplayed()
                 checkHistoryDisplayed()
                 checkEnteredUrlShortened()
+                checkAddPlateDisplayed()
             }
         }
         testLogger.i("Shorten an url scenario finished")

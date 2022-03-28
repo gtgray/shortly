@@ -9,6 +9,7 @@ import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import org.junit.Rule
 import org.junit.Test
 import tk.atna.shortlyapp.extension.isAppClosed
+import tk.atna.shortlyapp.common.singleTap
 import tk.atna.shortlyapp.presentation.main.MainActivity
 import tk.atna.shortlyapp.rule.DisableAnimationsRule
 import tk.atna.shortlyapp.scenario.ShortenAnUrlScenario
@@ -59,7 +60,7 @@ class MainTest : TestCase(
                 MainScreen {
                     checkEmptyDisplayed()
                     checkAddPlateDisplayed()
-                    shortenBtn { click() }
+                    shortenBtn { singleTap() }
                     checkEmptyUrlErrorDisplayed()
                 }
             }
