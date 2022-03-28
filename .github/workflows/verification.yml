@@ -86,3 +86,49 @@ jobs:
         with:
           name: 6. jacoco report
           path: app/build/reports/jacoco/testDebugUnitTestCoverage/html
+
+  ui_tests:
+    name: ui tests
+    runs-on: macos-latest
+    timeout-minutes: 20
+    strategy:
+      # allow tests to continue on other devices if they fail on one device
+      fail-fast: true
+      matrix:
+        # unclear that older versions actually honor command to disable animation.
+        # newer versions are reputed to be too slow: https://github.com/ReactiveCircus/android-emulator-runner/issues/222
+        api-level:
+          - 24
+          - 26
+          - 29
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: set up jdk
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: set up gradlew permissions
+        run: chmod +x gradlew
+
+      - name: run ui tests
+        with:
+          # probably, Galaxy Nexus is the fastest one
+          profile: Galaxy Nexus
+          api-level: ${{ matrix.api-level }}
+          target: google_apis
+          arch: x86_64
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: ./gradlew connectedDebugAndroidTest --no-daemon --stacktrace
+
+      - name: upload ui tests report ${{ matrix.api-level }}
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ui tests report ${{ matrix.api-level }}
+          path: ./**/build/reports/androidTests/connected/**
