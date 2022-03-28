@@ -130,7 +130,7 @@ fun MainScreen.checkEmptyUrlErrorDisplayed() {
 
 fun MainScreen.enterUrl() {
     inputUrlField {
-        typeText(this@enterUrl.TEST_URL)
+        replaceText(this@enterUrl.TEST_URL)
     }
 }
 

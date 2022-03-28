@@ -17,7 +17,10 @@ import tk.atna.shortlyapp.data.repository.UrlsRepositoryImpl
 import tk.atna.shortlyapp.domain.interactor.UrlsInteractor
 import tk.atna.shortlyapp.domain.repository.UrlsRepository
 import tk.atna.shortlyapp.presentation.main.MainViewModel
+import java.util.concurrent.TimeUnit
 
+const val CONNECT_TIMEOUT = 60_000L
+const val READ_TIMEOUT = 60_000L
 const val BASE_URL = "https://api.shrtco.de/v2/"
 const val DATABASE_NAME = "shortly_db"
 
@@ -38,6 +41,8 @@ val appModule = module {
     single { HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY } }
     single {
         OkHttpClient.Builder()
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
             .addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
