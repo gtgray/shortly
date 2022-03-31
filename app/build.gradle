@@ -1,8 +1,11 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'io.gitlab.arturbosch.detekt'
-apply plugin: 'com.google.firebase.appdistribution'
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'io.gitlab.arturbosch.detekt'
+    id 'com.google.firebase.appdistribution'
+}
 
 apply from: '../config/quality/ktlint.gradle'
 apply from: '../config/quality/checkstyle.gradle'
