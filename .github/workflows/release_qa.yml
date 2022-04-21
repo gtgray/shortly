@@ -24,6 +24,15 @@ jobs:
       - name: set up gradlew permissions
         run: chmod +x gradlew
 
+      - name: make clean
+        run: ./gradlew clean --stacktrace
+
+      - name: run lint
+        run: ./gradlew lintReleaseQa --stacktrace
+
+      - name: run assemble
+        run: ./gradlew assembleReleaseQa --stacktrace
+
       - name: generate release notes
         id: release_notes
         uses: mikepenz/release-changelog-builder-action@v2
@@ -37,19 +46,10 @@ jobs:
       - name: print release notes
         shell: bash
         run: |
-          echo ${{steps.release_notes.outputs.changelog}}
-          echo ${{steps.release_notes.outputs.fromTag}}
-          echo ${{steps.release_notes.outputs.toTag}}
-          cat app/build/release_notes.txt
-
-      - name: make clean
-        run: ./gradlew clean --stacktrace
-
-      - name: run lint
-        run: ./gradlew lintReleaseQa --stacktrace
-
-      - name: run assemble
-        run: ./gradlew assembleReleaseQa --stacktrace
+          echo "${{steps.release_notes.outputs.changelog}}"
+          echo "${{steps.release_notes.outputs.fromTag}}"
+          echo "${{steps.release_notes.outputs.toTag}}"
+          echo app/build/release_notes.txt
 
       - name: distribute
         run: ./gradlew appDistributionUploadReleaseQa --stacktrace
