@@ -27,6 +27,8 @@ jobs:
       - name: generate release notes
         id: release_notes
         uses: mikepenz/release-changelog-builder-action@v2
+        with:
+          commitMode: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
