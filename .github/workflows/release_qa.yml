@@ -49,7 +49,7 @@ jobs:
           echo "${{steps.release_notes.outputs.changelog}}"
           echo "${{steps.release_notes.outputs.fromTag}}"
           echo "${{steps.release_notes.outputs.toTag}}"
-          echo app/build/release_notes.txt
+          echo "NOTES=$(cat app/build/release_notes.txt)"
 
       - name: distribute
         run: ./gradlew appDistributionUploadReleaseQa --stacktrace
