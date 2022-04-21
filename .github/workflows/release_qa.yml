@@ -28,7 +28,7 @@ jobs:
         id: release_notes
         uses: mikepenz/release-changelog-builder-action@v2
         with:
-          configuration: "./.github/workflows/configuration.json"
+          configuration: "./.github/workflows/release_notes_configuration.json"
           commitMode: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

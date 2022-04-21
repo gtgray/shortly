@@ -1,0 +1,13 @@
+{
+  "categories": [
+    {
+      "title": "## Uncategorized",
+      "labels": []
+    }
+  ],
+  "template": "${{CHANGELOG}}\n${{UNCATEGORIZED}}",
+  "pr_template": "${{NUMBER}}\\ ${{TITLE}}\n",
+  "empty_template": "no changes",
+  "max_pull_requests": 1000,
+  "max_back_track_time_days": 1000
+}
