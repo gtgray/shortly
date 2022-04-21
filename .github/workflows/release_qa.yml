@@ -25,12 +25,17 @@ jobs:
         run: chmod +x gradlew
 
       - name: generate release notes
+        id: release_notes
+        uses: mikepenz/release-changelog-builder-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: print release notes
         shell: bash
         run: |
-          export notes=$(git log --no-merges --pretty=%s `git tag --list --sort=-committerdate | head -1`...`git tag --list --sort=-committerdate | head -5 | awk '{split($0, tags, "\n")} END {print tags[1]}'`)
-          echo "111$notes111"
-          echo "$notes" > ./release_notes.txt
-          cat ./release_notes.txt
+          echo ${{steps.release_notes.outputs.changelog}}
+          echo ${{steps.release_notes.outputs.fromTag}}
+          echo ${{steps.release_notes.outputs.toTag}}
 
       - name: make clean
         run: ./gradlew clean --stacktrace
