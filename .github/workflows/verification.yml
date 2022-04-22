@@ -90,17 +90,20 @@ jobs:
   ui_tests:
     name: ui tests
     runs-on: macos-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       # allow tests to continue on other devices if they fail on one device
-      fail-fast: true
+      fail-fast: false
       matrix:
         # unclear that older versions actually honor command to disable animation.
-        # newer versions are reputed to be too slow: https://github.com/ReactiveCircus/android-emulator-runner/issues/222
+        # newer versions are reputed to be too slow. see the link for details:
+        # https://github.com/ReactiveCircus/android-emulator-runner/issues/222
         api-level:
           - 24
           - 26
+          - 28
           - 29
+          - 30
 
     steps:
       - name: checkout repository
@@ -117,9 +120,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: run ui tests
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          # probably, Galaxy Nexus is the fastest one
-          profile: Galaxy Nexus
+          profile: pixel_4
           api-level: ${{ matrix.api-level }}
           target: google_apis
           arch: x86_64
