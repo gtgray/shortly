@@ -1,12 +1,12 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.6.10'
+        kotlin_version = '1.7.21'
     }
 }
 
 plugins {
-    id 'com.android.application' version '7.1.2' apply false
+    id 'com.android.application' version '7.4.1' apply false
     id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
     id 'io.gitlab.arturbosch.detekt' version '1.19.0' apply false
     id 'com.google.firebase.appdistribution' version '3.0.1' apply false
@@ -30,7 +30,7 @@ static void generateReleaseNotes(String dir) {
     releaseNotesDir.mkdirs()
     def releaseNotesFile = new File(releaseNotesDir, 'release_notes.txt')
     releaseNotesFile.newWriter().withWriter { writer ->
-        int i = 0;
+        int i = 0
         messages.collect {
             if(it != null) {
                 def line = ++i + "\\ " + it + "\n"
