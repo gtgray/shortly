@@ -1,11 +1,13 @@
 package tk.atna.shortlyapp.stuff
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class SingleEventFlow<T> {
@@ -22,4 +24,10 @@ class SingleEventFlow<T> {
             event.collect { collector.invoke(it) }
         }
     }
+
+    @VisibleForTesting
+    suspend fun first() = event.first()
+
+    @VisibleForTesting
+    suspend fun toList(dest: MutableList<T> = ArrayList()) = event.toList(dest)
 }
