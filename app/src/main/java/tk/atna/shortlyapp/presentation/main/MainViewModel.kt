@@ -1,5 +1,6 @@
 package tk.atna.shortlyapp.presentation.main
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,8 +19,8 @@ class MainViewModel(
     private val urlsInteractor: UrlsInteractor
 ) : BaseViewModel() {
 
-    private var copiedLink = MutableStateFlow<String?>(null)
-    private var copyTimeout: Job? = null
+    var copiedLink = MutableStateFlow<String?>(null)
+    private var copyTimeoutJob: Job? = null
     val history = copiedLink.combine(urlsInteractor.getShortenedUrls()) { copied, urls ->
         urls.map { ShortenedUrlItem(it, copied) }
     }.asStateFlow(viewModelScope, listOf())
@@ -29,8 +30,8 @@ class MainViewModel(
     fun copyUrl(shortenedUrl: ShortenedUrl) {
         copiedLink.value = shortenedUrl.shortLink
 
-        copyTimeout?.cancel()
-        copyTimeout = launchJob(loading = null) {
+        copyTimeoutJob?.cancel()
+        copyTimeoutJob = launchJob(loading = null) {
             delay(DEFAULT_COPY_TIMEOUT)
             copiedLink.value = null
         }
@@ -54,6 +55,7 @@ class MainViewModel(
     }
 
     companion object {
+        @VisibleForTesting
         const val DEFAULT_COPY_TIMEOUT = 5000L
     }
 }
